@@ -23,13 +23,13 @@ const registerUser = async (req, res) =>
 
     //Hash password
     const salt = await bcrypt.genSalt(10);
-    const hassedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     //Create user
     const user = await User.create({
         name,
         email,
-        password:hassedPassword
+        password:hashedPassword
     })
 
     //check if user was created
