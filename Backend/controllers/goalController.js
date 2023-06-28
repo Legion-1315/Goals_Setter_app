@@ -33,56 +33,47 @@ const setGoal = async (req, res) =>
 // @access Private
 const updateGoal = async (req, res) => {
     const goal = await Goal.findById(req.params.id);
-    if (!goal)
-    {
-        res.status(400).json({ error: 'Goal not found' });
+    if (!goal) {
+        res.status(400).json({ error: "Goal not found" });
     }
 
-    const user = await User.findById(req.user.id);
-
     //check if user exists
-    if (!user)
-    {
+    if (!req.user) {
         res.status(401).json({ error: "User not found" });
     }
 
     //make sure the logged and user matches the log user
-    if (goal.user.toString() !== user.id)
-    {
+    if (goal.user.toString() !== req.user.id) {
         res.status(401).json({ error: "User not authorized" });
     }
 
-    const updatedGoal = await Goal.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updatedGoal = await Goal.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+    });
 
     res.status(200).json(updatedGoal);
-}
+};
 
 // @desc Delete goals
 // @route DELETE / api / goals / :id
 // @access Private
-const deleteGoal = async (req, res) =>
-{
+const deleteGoal = async (req, res) => {
     const goal = await Goal.findById(req.params.id);
-    if (!goal)
-    {
-        res.status(400).json({ error: 'Goal not found' });
+    if (!goal) {
+        res.status(400).json({ error: "Goal not found" });
     }
 
-    const user = await User.findById(req.user.id);
-
     //check if user exists
-    if (!user)
-    {
+    if (!req.user) {
         res.status(401).json({ error: "User not found" });
     }
 
     //make sure the logged and user matches the log user
-    if (goal.user.toString() !== user.id)
-    {
+    if (goal.user.toString() !== req.user.id) {
         res.status(401).json({ error: "User not authorized" });
     }
-    
+
     await goal.remove();
     res.status(200).json({ id: req.params.id });
-}
+};
 module.exports = { getGoals, setGoal, updateGoal, deleteGoal };

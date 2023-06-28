@@ -3,6 +3,7 @@ const dotenv = require('dotenv').config();
 const port = process.env.PORT || 5000;
 const colors = require('colors');
 const connectDB = require('./config/db');
+const path = require('path')
 //Or 5000 is added so as if the previous port is bussy for some reason than this port will work.
 
 //it will output in the console the mongoDB connection string we gave in the .env
